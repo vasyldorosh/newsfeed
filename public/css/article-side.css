@@ -1,0 +1,13 @@
+@media (min-width: 1260px) {
+  .ad-side-top {
+    display: block;
+    position: absolute;
+    right: -140px;
+  }
+}
+
+@media (max-width: 1260px) {
+  .ad-side-top {
+    display: none
+  }
+}

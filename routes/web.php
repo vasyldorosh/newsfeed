@@ -15,6 +15,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/feed', 'HomeController@feed')->name('feed');
 Route::get('/news-{slug}', 'HomeController@news')->name('news.view');
+Route::get('/i', 'HomeController@i')->name('image');
 
 Route::group(['namespace' => 'Manager', 'prefix' => 'manager', 'middleware'=>'auth'], function(){ 
     /*

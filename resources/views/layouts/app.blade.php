@@ -46,7 +46,7 @@
     <script src="/js/vibrant.min.js"></script>
     <script src="/js/rgbaster.min.js"></script>
     <script src="/js/clamp.min.js"></script>
-    <script src="/js/scripts.js"></script>
+    <script src="/js/scripts.js?<?= time()?>"></script>
 </body>
 
 </html>

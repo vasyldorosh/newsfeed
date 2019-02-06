@@ -27,7 +27,7 @@ class News extends Model
     {
         return self::orderBy('created_at', 'desc')
                 ->offset($offset)
-                ->limit(9)
+                ->limit(16)
                 ->get()
                 ->toArray();
     }

@@ -64,7 +64,7 @@ class Fb implements ParserInterface
                 }
                 $attrs['content'] = $documentContent->html();
 
-                $items[] = ParserHelper::addItem($attrs);
+                ParserHelper::addItem($attrs);
             }
         }
 

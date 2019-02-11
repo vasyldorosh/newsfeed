@@ -83,7 +83,7 @@ class Zen implements ParserInterface
 
                     $attrs['content'] = pq($documentItem->find('.article__body'))->html();
 
-                    $items[] = ParserHelper::addItem($attrs);
+                    ParserHelper::addItem($attrs);
                 }
             }
         }

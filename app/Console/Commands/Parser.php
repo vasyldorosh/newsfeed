@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Services\Parser\ParserFactory;
 use App\Services\Parser\Parser as ParserHelper;
 use App\Repositories\Eloquent\NewsRepo;
+use App\Models\News;
 
 class Parser extends Command
 {
@@ -46,5 +47,11 @@ class Parser extends Command
             
             ParserFactory::build($resourceClass)->setUrl($url)->parse();
         }
+        
+        $items = array_reverse(ParserHelper::$parsedItems);
+        foreach ($items as $item) {
+            News::create($item);
+        }
+        
     }
 }

@@ -64,7 +64,7 @@ class Life implements ParserInterface
                         $attrs['content'] = $content;
                     }
 
-                    $items[] = ParserHelper::addItem($attrs);
+                    ParserHelper::addItem($attrs);
                 }
             }
         }

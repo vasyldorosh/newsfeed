@@ -134,7 +134,7 @@ $( document ).ready(() => {
               $(window).bind('scroll', bindScroll);
               
               loaded = true;
-              feedOffset = feedOffset + 16;
+              feedOffset = feedOffset + 8;
           },
           error: (e) => console.log(e)
       });

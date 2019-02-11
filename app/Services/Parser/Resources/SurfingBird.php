@@ -51,7 +51,7 @@ class SurfingBird implements ParserInterface
                 
                 $attrs['content'] = $documentContent->find('div:first div')->html();
                 
-                $items[] = ParserHelper::addItem($attrs);
+                ParserHelper::addItem($attrs);
             }
 
         }

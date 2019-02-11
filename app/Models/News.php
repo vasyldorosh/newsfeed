@@ -25,9 +25,11 @@ class News extends Model
 
     public static function getItems($offset = 0)
     {
+        $limit = !$offset ? 16 : 8;
+        
         return self::orderBy('created_at', 'desc')
                 ->offset($offset)
-                ->limit(16)
+                ->limit($limit)
                 ->get()
                 ->toArray();
     }

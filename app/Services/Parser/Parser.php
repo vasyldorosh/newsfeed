@@ -6,12 +6,13 @@ use App\Models\ZenChannel;
 
 class Parser
 {
-
     const RESOURCE_ZEN = 1;
     const RESOURCE_LIFE = 2;
     const RESOURCE_SURFING_BIRD = 3;
     const RESOURCE_FB = 4;
 
+    public static $parsedItems = [];
+    
     public static function hasItem($data)
     {
         return News::where($data)->count();
@@ -27,7 +28,8 @@ class Parser
         $data['slug'] = str_slug($data['title']);
 
         try {
-            $model = News::create($data);
+            self::$parsedItems[] = $data;
+            
         } catch (Exception $e) {
             return false;
         }

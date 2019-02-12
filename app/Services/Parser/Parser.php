@@ -45,6 +45,8 @@ class Parser
             'http://fb.ru' => 'Fb',
         ];
 
+        //$urls = [];
+        
         $items = ZenChannel::get();
         foreach ($items as $item) {
             $urls[$item->url] = 'Zen';

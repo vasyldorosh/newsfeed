@@ -24,6 +24,65 @@ class Zen implements ParserInterface
         $url = trim($this->url, '/');
         $page = (new Curl($url))->init()->execute()->close();
 
+        $data = [];
+        $expl = explode('window.__SERVER_STATE__ = ', $page->getResponse());
+        if (isset($expl[1])) {
+            $expl = explode(';</script>', $expl[1]);
+            $json = $expl[0];
+            $data = json_decode($json, true);
+        } 
+        
+        $mapChannelUrlId = ZenChannel::getListUrlId();
+        
+        if (isset($data['feed']['items'])) {
+            foreach ($data['feed']['items'] as $dItem) {
+                if ($dItem['type'] != 'card') {
+                    continue;
+                }
+
+                $expl = explode('?', $dItem['link']);
+
+                $attrs = [
+                    'resource_id' => $this->getResourceId(),
+                    'zen_channel_id' => isset($mapChannelUrlId[$this->url]) ? $mapChannelUrlId[$this->url] : null,
+                    'title' => $dItem['title'],
+                    'description' => $dItem['text'],
+                    'image_url' => $dItem['image'],
+                    'resource_url' => $expl[0],
+                ];
+
+                if (!ParserHelper::hasItem(['resource_id' => $attrs['resource_id'], 'resource_url' => $attrs['resource_url']])) {
+                    $itemUrl = $attrs['resource_url'];
+                    echo "\n" . $itemUrl . "\n";
+
+                    $pageItem = (new Curl($itemUrl))->init()->execute()->close();
+                    $documentItem = \phpQuery::newDocumentHTML($pageItem->response);
+
+                    foreach ($documentItem->find('img[data-src]') as $figureImg) {
+                        $figureImg = pq($figureImg);
+
+                        $figure = pq($figureImg->parents('figure'));
+                        $figure->before('<img src="' . $figureImg->attr('data-src') . '" />');
+                        $figure->remove();
+                    }
+
+                    $attrs['content'] = pq($documentItem->find('.article__body'))->html();
+
+                    ParserHelper::addItem($attrs);
+                }
+            }
+        }
+
+        return $items;
+    }
+    
+    /*
+    public function parse(): array
+    {
+        $items = [];
+        $url = trim($this->url, '/');
+        $page = (new Curl($url))->init()->execute()->close();
+
         $expl = explode('/', $url);
 
         $params = [
@@ -90,7 +149,8 @@ class Zen implements ParserInterface
 
         return $items;
     }
-
+    */
+    
     public function getResourceId(): int
     {
         return ParserHelper::RESOURCE_ZEN;
